@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.13.1/themes/base/jquery-ui.css">
+  
+  <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
+  <script src="https://code.jquery.com/ui/1.13.1/jquery-ui.js"></script>
+
+</head>
+<body>
+    <form action="/action_page.php">
+        
+        <input type="text" id="searchName" name="name"><br><br>
+        <input type="submit" value="Submit">
+      </form>
+
+  <script>
+      $(function(){
+          $('#searchName').autocomplete({
+            source:function(req ,res){
+                $.ajax({
+                    url:"autocomplete/",
+                    dataType:"jsonp",
+                    type:"GET",
+                    data:req,
+                    success:function(data){
+                        res(data)
+                    },
+                    error:function(err){
+                        console.log(err.status);
+                    }
+                });
+            },
+            minLength:1,
+            select:function(event,ui){
+                if(ui.item){
+                    $('#searchName').text(ui.item.label);
+                }
+            }
+          });
+      })
+  </script>
+
+</body>
+</html>
